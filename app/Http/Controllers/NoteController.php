@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Note;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +37,10 @@ class NoteController extends Controller
             'note' => $request->note,
             'user_id' => Auth::user()->id
         ]);
+        if ($note) {
+            session()->flash('created' , 'Note Berhasil Di Tambahkan!');
+            return redirect()->route('dashboard');
+        }
         return redirect()->route('dashboard');
     }
 
@@ -57,6 +60,8 @@ class NoteController extends Controller
     public function edit(string $id)
     {
         //
+        $note = Note::find($id);
+        return view('note.edit', compact('note'));
     }
 
     /**
@@ -65,6 +70,16 @@ class NoteController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $note = Note::find($id);
+        if ($note->note == $request->note) {
+            session()->flash('updated' , 'similar');
+            return redirect()->route('dashboard');
+        }
+        $updated = Note::find($id)->update($request->all());
+        if ($updated) {
+            session()->flash('updated' , 'Note Berhasil Di Update!');
+        }
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -72,6 +87,10 @@ class NoteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deleted = Note::destroy($id);
+        if($deleted) {
+            session()->flash('deleted' , 'Note Berhasil Di Hapus!');
+        }
+        return redirect()->route('dashboard');
     }
 }

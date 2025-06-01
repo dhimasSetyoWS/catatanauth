@@ -14,9 +14,9 @@
                     <div class="divider"></div>
                     <form action="{{ route('note.store' , Auth::user()->id) }}" method="POST">
                         @csrf
-                        <div class="flex justify-between align-middle">
-                            <input name="note" placeholder="Catatan Anda" class="input input-bordered input-lg w-full max-w-lg focus:outline-none focus:border-black"></input>
-                            <button type="submit" class="btn bg-black text-white self-center">
+                        <div class="flex justify-between items-center gap-3 flex-col">
+                            <textarea name="note" class="textarea w-full max-w-4xl h-[120px] focus:outline-none focus:border-black" placeholder="Catatan Anda"></textarea>
+                            <button type="submit" class="btn bg-black text-white self-center hover:bg-gray-800">
                                 Submit
                             </button>
                         </div>
